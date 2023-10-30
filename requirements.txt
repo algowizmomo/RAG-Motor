@@ -1,0 +1,13 @@
+openai
+langchain
+huggingface_hub==0.17
+tiktoken
+unstructured
+unstructured[pdf]
+unstructured[docx]
+openpyxl
+pandas
+nltk
+networkx
+unstructured[md]
+chromadb
