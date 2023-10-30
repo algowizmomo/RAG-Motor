@@ -1,0 +1,6 @@
+notifications_dir/
+.venv/
+docs/
+faiss_index/
+__pycache__
+
