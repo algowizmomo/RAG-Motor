@@ -1,7 +1,6 @@
 from langchain.document_loaders import DirectoryLoader
 from transformers import GPT2TokenizerFast
 from langchain.text_splitter import CharacterTextSplitter
-from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import FAISS
 from langchain.embeddings.openai import OpenAIEmbeddings
 
