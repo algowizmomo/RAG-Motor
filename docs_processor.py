@@ -1,18 +1,26 @@
+# docs_processor.py
 from langchain.document_loaders import DirectoryLoader
 from transformers import GPT2TokenizerFast
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import FAISS
-from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.embeddings import OpenAIEmbeddings, HuggingFaceEmbeddings  # Import other embeddings as needed
 
 import os
-clear = lambda:os.system("clear")
 
-INDEX_DIR = "faiss_index"
-embeddings = OpenAIEmbeddings()
+def index_docs(model_name, embedding_model):
+    INDEX_DIR = f"faiss_index_{model_name}"
+    
+    if os.path.exists(INDEX_DIR):
+        db = FAISS.load_local(INDEX_DIR, embedding_model)
+    else:
+        documents = prepare_docs()
+        db = FAISS.from_documents(documents, embedding_model)
+        db.save_local(INDEX_DIR)
+    return db
 
 def prepare_docs():
     # Loading
-    loader = DirectoryLoader('docs')
+    loader = DirectoryLoader('./docs/bare/')
     docs = loader.load()
 
     # Chunking
@@ -22,15 +30,6 @@ def prepare_docs():
     )
     chunks = text_splitter.split_documents(docs)
     return chunks
-
-def index_docs():
-    if os.path.exists(INDEX_DIR):
-        db = FAISS.load_local("faiss_index", embeddings)
-    else:
-        documents = prepare_docs()
-        db = FAISS.from_documents(documents, OpenAIEmbeddings())
-        db.save_local(INDEX_DIR)
-    return db
 
 
 def main():

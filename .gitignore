@@ -3,4 +3,5 @@ notifications_dir/
 docs/
 faiss_index/
 __pycache__
-
+.env
+results_temp.json
